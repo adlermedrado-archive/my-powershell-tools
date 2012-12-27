@@ -9,7 +9,7 @@ $name=$args[1]
 $error="Like this: ./wget.ps1 http://mysite.com myfilename.txt"
 
 if ($url) {
-	IF([string]::IsNullOrEmpty($name)) {            
+	if([string]::IsNullOrEmpty($name)) {            
 	    Write-Host "You must give a name to downloaded file"
 	    Write-Host $error
 	} else {

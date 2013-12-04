@@ -1,0 +1,22 @@
+[void][System.Reflection.Assembly]::LoadFile("C:\MySQL\Connector\Assemblies\v4.5\Mysql.Data.dll")
+
+$connectionString = "server=localhost;uid=root;pwd=q1w2e3r4;database=contrato;"
+
+try {
+	$connection = New-Object Mysql.Data.MySqlClient.MySqlConnection
+	$connection.connectionstring = $connectionString 
+	$connection.Open()
+    $sql = "SELECT * FROM aditivo"
+    $command = New-Object MySql.Data.MySqlClient.MySqlCommand($sql, $connection)
+    $dataAdapter = New-Object MySql.Data.MySqlClient.MySqlDataAdapter($command)
+    $dataSet = New-Object System.Data.DataSet
+    $recordCount = $dataAdapter.Fill($dataSet, "content")
+    $dataSet.Tables["content"]|Format-Table
+    # Sending contents to a file
+    $dataSet.Tables["content"]|Format-Table > C:\temp\conteudo.txt
+} catch {
+    Write-Host "Erro running Query" $Error[0]   
+} Finally {
+	Write-Verbose "Closing Connection"
+    $connection.Close()
+}
